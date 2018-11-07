@@ -1,0 +1,44 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+/*-------------------
+       Fonts
+--------------------*/
+
+@fontName          : 'Raleway';
+@fontSmoothing     : antialiased;
+
+@headerFont        : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@pageFont          : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+
+@googleFontName    : @fontName;
+@importGoogleFonts : true;
+@googleFontSizes   : '300,400,400i,500,700,900';
+@googleSubset      : 'latin';
+
+@googleProtocol    : 'https://';
+@googleFontRequest : '@{googleFontName}:@{googleFontSizes}&subset=@{googleSubset}';
+
+
+@bold              : bold;
+@normal            : normal;
+
+
+/*-------------------
+        Page
+--------------------*/
+
+@textColor           : #222222;
+
+
+/*-------------------
+    Brand Colors
+--------------------*/
+
+@primaryColor        : #e3c83a;
+@secondaryColor      : #222222;
+
+@lightPrimaryColor   : #e3c83a;
+@lightSecondaryColor : #222222;
+

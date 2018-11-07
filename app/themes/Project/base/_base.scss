@@ -1,0 +1,120 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+/**
+ * Set up a decent box model on the root element
+ */
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+#app {
+  background-color: #fff;
+  min-height: 100%;
+  min-width: 100%;
+  display: block;
+  margin: 0;
+  overflow: auto;
+}
+
+/*Images components*/
+
+.image-loader .dimmable:not(body),
+.image-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.image-component-loader .dimmable:not(body),
+.image-component-loader {
+  width: 48px;
+  height: 48px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.image-loader,
+.image-component-loader {
+  display: none;
+}
+
+.image-loader.loading,
+.image-component-loader.loading {
+  display: block;
+}
+
+.image-wrapper {
+  position: relative;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.square .image-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.square .image-wrapper:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.square .image-wrapper img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+/*Image cut centered*/
+
+.image-centered {
+  width: 100%;
+  height: auto;
+}
+
+.image-centered .image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.image-centered .image-wrapper img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: auto;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.image-centered.vertical .image-wrapper img {
+  width: auto;
+  height: 100%;
+}
+
+.ant-btn>.anticon {
+  line-height: 2;
+}
