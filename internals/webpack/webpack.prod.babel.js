@@ -2,7 +2,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
-const OfflinePlugin = require('offline-plugin');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -110,7 +109,8 @@ module.exports = require('./webpack.base.babel')({
     new WebpackPwaManifest({
       name: 'Administrator | Rutas por Colombia',
       short_name: 'Rutas por Colombia',
-      description: 'Administrador de la Aplicación Rutas por Colombia realizada como iniciativa para Talento Digital y el MinTIC.',
+      description:
+        'Administrador de la Aplicación Rutas por Colombia realizada como iniciativa para Talento Digital y el MinTIC.',
       background_color: '#e3c83a',
       theme_color: '#e3c83a',
       inject: true,
