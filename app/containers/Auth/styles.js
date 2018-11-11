@@ -17,7 +17,7 @@ export const MainContainer = styled.div`
   flex-wrap: wrap;
   justify-content: stretch;
   align-items: stretch;
-  background: #f2f2f2;
+  background: #fff;
 `;
 
 export const WrapperLogin = styled.div`
@@ -32,13 +32,14 @@ export const WrapperLogin = styled.div`
 `;
 
 export const WrapperLoginForm = styled.div`
-  width: 50%;
+  width: 560px;
   display: block;
-  background-color: #f7f7f7;
+  background-color: #fff;
   padding: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-flow: column;
   @media (max-width: 992px) {
     width: 50%;
   }
@@ -89,10 +90,11 @@ export const LoginForm = styled(Form)`
 
 export const Logo = styled(Image)`
   margin: 3em;
+  max-width: 300px !important;
 `;
 
 export const LoginImage = styled.div`
-  width: 50%;
+  width: calc(100% - 560px);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

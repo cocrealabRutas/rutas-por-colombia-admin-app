@@ -75,10 +75,9 @@ class LoginPage extends Component {
     return (
       <MainContainer>
         <WrapperLogin>
-          <LoginImage>
-            <Logo src={logo} size="small" className="logo" />
-          </LoginImage>
+          <LoginImage />
           <WrapperLoginForm>
+            <Logo src={logo} fluid className="logo" />
             <LoginForm onSubmit={this.handleSubmit} className="login-form">
               <FormItem>
                 {getFieldDecorator('email', {
