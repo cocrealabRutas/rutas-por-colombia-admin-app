@@ -65,6 +65,7 @@ export const LoginForm = styled(Form)`
     text-align: right;
   }
   .login-form-button {
+    font-weight: 700;
     margin: auto;
     margin-top: 2em;
     display: flex;
@@ -75,9 +76,6 @@ export const LoginForm = styled(Form)`
     max-width: 150px;
     height: 60px;
     border-radius: 10px;
-    background: $purple;
-    font-size: 12px;
-    color: white;
     line-height: 1.2;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -90,7 +88,7 @@ export const LoginForm = styled(Form)`
 
 export const Logo = styled(Image)`
   margin: 3em;
-  max-width: 300px !important;
+  max-width: 250px !important;
 `;
 
 export const LoginImage = styled.div`
