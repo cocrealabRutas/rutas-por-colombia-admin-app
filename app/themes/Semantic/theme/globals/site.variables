@@ -6,15 +6,15 @@
        Fonts
 --------------------*/
 
-@fontName          : 'Raleway';
+@fontName          : 'Montserrat';
 @fontSmoothing     : antialiased;
 
-@headerFont        : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-@pageFont          : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@headerFont        : @fontName, 'Helvetica Neue', Helvetica, sans-serif;
+@pageFont          : @fontName, 'Helvetica Neue', Helvetica, sans-serif;
 
 @googleFontName    : @fontName;
 @importGoogleFonts : true;
-@googleFontSizes   : '300,400,400i,500,700,900';
+@googleFontSizes   : '100,300,400,400i,700,900';
 @googleSubset      : 'latin';
 
 @googleProtocol    : 'https://';
