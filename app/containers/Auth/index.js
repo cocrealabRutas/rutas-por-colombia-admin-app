@@ -4,8 +4,8 @@
  *
  */
 
-import Auth from './Auth';
+import withAuth from './withAuth';
 import Logout from './Logout';
 import LoginPage from './LoginPage';
 
-export { Auth, Logout, LoginPage };
+export { withAuth, Logout, LoginPage };

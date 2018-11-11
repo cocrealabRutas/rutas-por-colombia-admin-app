@@ -13,8 +13,10 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
 
+// Components
+import PrivateRoute from 'components/PrivateRoute';
 import { LoginPage, Logout } from 'containers/Auth/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import Dashboard from './Dashboard';
 
 // Redux
 import { checkSession } from '../Auth/actions';
@@ -37,7 +39,7 @@ class App extends React.Component {
               <Switch location={location}>
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/logout" component={Logout} />
-                <Route component={NotFoundPage} />
+                <PrivateRoute component={Dashboard} />
               </Switch>
             </CSSTransition>
           </TransitionGroup>

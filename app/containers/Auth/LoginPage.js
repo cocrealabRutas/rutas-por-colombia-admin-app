@@ -17,7 +17,7 @@ import message from 'antd/lib/message';
 import { loginUser } from './actions';
 
 // Components
-import AuthHOC from './Auth';
+import withAuth from './withAuth';
 
 // Styles
 import {
@@ -146,4 +146,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps,
-)(AuthHOC(Form.create()(LoginPage)));
+)(withAuth(Form.create()(LoginPage)));
