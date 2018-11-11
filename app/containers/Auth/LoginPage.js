@@ -56,9 +56,15 @@ class LoginPage extends Component {
     try {
       await this.props.loginUser(email, password);
       this.setState({ loading: false });
-    } catch (error) {
-      console.log(error);
-      message.error('Incorrect user or password. Please try again.', 4);
+    } catch (code) {
+      if (code === 401) {
+        message.error(
+          'Not authorized to perform this action, only admin user have access.',
+          5,
+        );
+      } else {
+        message.error('Incorrect user or password. Please try again.', 4);
+      }
       this.setState({ loading: false });
     } finally {
       loading();
