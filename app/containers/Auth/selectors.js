@@ -9,6 +9,9 @@ const selectUserDataDomain = state =>
   state.get('userData', initialUserDataState);
 
 const makeSelectUserData = () =>
-  createSelector(selectUserDataDomain, substate => substate.toJS());
+  createSelector(
+    selectUserDataDomain,
+    substate => substate.toJS(),
+  );
 
 export { selectUserDataDomain, makeSelectUserData };
