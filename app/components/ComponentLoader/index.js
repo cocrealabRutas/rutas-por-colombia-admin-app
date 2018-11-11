@@ -11,21 +11,33 @@ import { CSSTransition } from 'react-transition-group';
 // Custom Loader
 import Loader from 'components/Loader';
 
-const ComponentLoader = ({ Component, loading, ownProps }) => (
-  <div>
-    <CSSTransition
-      in={loading}
-      timeout={300}
-      classNames="fade"
-      mountOnEnter
-      unmountOnExit
-    >
-      <Loader />
-    </CSSTransition>
-    {!loading && <Component {...ownProps} />}
-  </div>
-);
+class ComponentLoader extends React.PureComponent {
+  state = {
+    animationEnds: false,
+  };
 
+  render() {
+    const { Component, loading, ownProps } = this.props;
+    const { animationEnds } = this.state;
+    return (
+      <div>
+        <CSSTransition
+          in={loading}
+          timeout={300}
+          classNames="fade"
+          mountOnEnter
+          unmountOnExit
+          onExited={() => {
+            this.setState({ animationEnds: true });
+          }}
+        >
+          <Loader />
+        </CSSTransition>
+        {!loading && animationEnds && <Component {...ownProps} />}
+      </div>
+    );
+  }
+}
 ComponentLoader.defaultProps = {
   Component: null,
 };
