@@ -5,7 +5,11 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
+// Semantic
+import { Header } from 'semantic-ui-react';
 
 // Ant
 import Spin from 'antd/lib/spin';
@@ -25,12 +29,27 @@ const Container = styled.div`
   background-color: white;
 `;
 
-const antIcon = <Icon type="loading" style={{ fontSize: 64 }} spin />;
+const SpinIcon = styled(Icon)`
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+`;
 
-const Loader = () => (
+const antIcon = <SpinIcon type="loading" spin />;
+
+const Loader = ({ text }) => (
   <Container>
     <Spin indicator={antIcon} />
+    {text && <Header as="h4">{text}</Header>}
   </Container>
 );
+
+Loader.defaultProps = {
+  text: null,
+};
+
+Loader.propTypes = {
+  text: PropTypes.string,
+};
 
 export default Loader;
