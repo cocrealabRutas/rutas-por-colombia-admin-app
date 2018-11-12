@@ -45,14 +45,20 @@ class TollsUploaderPage extends Component {
       const workbook = XLSX.read(data, { type: 'array' });
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       data = XLSX.utils.sheet_to_json(worksheet);
-      console.log(data);
       const normalizedData = data.map((item, counter) => {
         const row = counter + 2;
         const {
           Nombre: name,
           Departamento: state,
-          'Precios por Categoria': categoryPrices,
-          Coordenadas: coordinates,
+          'Categoria 1': categoryPrice1,
+          'Categoria 2': categoryPrice2,
+          'Categoria 3': categoryPrice3,
+          'Categoria 4': categoryPrice4,
+          'Categoria 5': categoryPrice5,
+          'Categoria 6': categoryPrice6,
+          'Categoria 7': categoryPrice7,
+          Latitud: latitude,
+          Longitud: longitude,
           Telefono: phone,
           Grua: towTruck,
         } = item;
@@ -70,31 +76,82 @@ class TollsUploaderPage extends Component {
             error: 'La categoría no puede estar vacía.',
           });
         }
-        if (!categoryPrices || categoryPrices.split(',').length < 1) {
-          errors.push({
-            id: uuidv4(),
-            row,
-            error: 'Debe haber al menos un valor en el precio del peaje.',
-          });
-        }
-        if (!coordinates || coordinates.split(',').length < 2) {
+        if (Number.isNaN(parseInt(categoryPrice1, 10))) {
           errors.push({
             id: uuidv4(),
             row,
             error:
-              'Las coordenadas no pueden estar vacías. Debe haber Latitud y Longitud.',
+              'Debe existir un valor para la Categoria 1. El campo debe ser de tipo entero.',
+          });
+        }
+        if (Number.isNaN(parseInt(categoryPrice2, 10))) {
+          errors.push({
+            id: uuidv4(),
+            row,
+            error:
+              'Debe existir un valor para la Categoria 2. El campo debe ser de tipo entero.',
+          });
+        }
+        if (Number.isNaN(parseInt(categoryPrice3, 10))) {
+          errors.push({
+            id: uuidv4(),
+            row,
+            error:
+              'Debe existir un valor para la Categoria 3. El campo debe ser de tipo entero.',
+          });
+        }
+        if (Number.isNaN(parseInt(categoryPrice4, 10))) {
+          errors.push({
+            id: uuidv4(),
+            row,
+            error:
+              'Debe existir un valor para la Categoria 4. El campo debe ser de tipo entero.',
+          });
+        }
+        if (Number.isNaN(parseInt(categoryPrice5, 10))) {
+          errors.push({
+            id: uuidv4(),
+            row,
+            error:
+              'Debe existir un valor para la Categoria 5. El campo debe ser de tipo entero.',
+          });
+        }
+        if (Number.isNaN(parseFloat(latitude))) {
+          errors.push({
+            id: uuidv4(),
+            row,
+            error:
+              'La latitud no puede estar vacía. El campo debe ser de tipo decimal.',
+          });
+        }
+        if (Number.isNaN(parseFloat(longitude))) {
+          errors.push({
+            id: uuidv4(),
+            row,
+            error:
+              'La longitud no puede estar vacía. El campo debe ser de tipo decimal.',
           });
         }
         return {
           name,
           state,
-          categoryPrices: categoryPrices ? categoryPrices.split(',') : [],
-          coordinates: coordinates ? coordinates.split(',') : [],
+          categoryPrice1,
+          categoryPrice2,
+          categoryPrice3,
+          categoryPrice4,
+          categoryPrice5,
+          categoryPrice6: Number.isNaN(parseInt(categoryPrice6, 10))
+            ? null
+            : categoryPrice6,
+          categoryPrice7: Number.isNaN(parseInt(categoryPrice7, 10))
+            ? null
+            : categoryPrice7,
+          latitude,
+          longitude,
           phone: phone || null,
           towTruck: towTruck || null,
         };
       });
-      console.log(errors);
       if (errors.length < 1) {
         try {
           await api.put(
@@ -110,11 +167,14 @@ class TollsUploaderPage extends Component {
               },
             },
           );
-          this.setState({ loading: false });
           message.success('Archivo procesado correctamente');
         } catch (error) {
-          message.error('Hubo un error. Intente nuevamente');
+          message.error(
+            'Hubo un error al subir el archivo. Intente nuevamente',
+          );
           throw error;
+        } finally {
+          this.setState({ loading: false });
         }
       } else {
         message.error(
@@ -143,8 +203,15 @@ class TollsUploaderPage extends Component {
         tollCollectors.push({
           Nombre: data.name[i],
           Departamento: data.state[i],
-          'Precios por Categoria': data.categoryPrices[i].join(),
-          Coordenadas: data.coordinates[i].join(),
+          'Categoria 1': data.categoryPrice1[i],
+          'Categoria 2': data.categoryPrice2[i],
+          'Categoria 3': data.categoryPrice3[i],
+          'Categoria 4': data.categoryPrice4[i],
+          'Categoria 5': data.categoryPrice5[i],
+          'Categoria 6': data.categoryPrice6[i],
+          'Categoria 7': data.categoryPrice7[i],
+          Latitud: data.latitude[i],
+          Longitud: data.longitude[i],
           Telefono: data.phone[i],
           Grua: data.towTruck[i],
         });
@@ -153,8 +220,15 @@ class TollsUploaderPage extends Component {
         header: [
           'Nombre',
           'Departamento',
-          'Precios por Categoria',
-          'Coordenadas',
+          'Categoria 1',
+          'Categoria 2',
+          'Categoria 3',
+          'Categoria 4',
+          'Categoria 5',
+          'Categoria 6',
+          'Categoria 7',
+          'Latitud',
+          'Longitud',
           'Telefono',
           'Grua',
         ],

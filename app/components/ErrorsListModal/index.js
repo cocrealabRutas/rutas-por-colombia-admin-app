@@ -7,6 +7,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Semantic
+import { Header } from 'semantic-ui-react';
+
 // Ant
 import Modal from 'antd/lib/modal';
 import Button from 'antd/lib/button';
@@ -21,6 +24,7 @@ const ErrorsListModal = ({ errors, open, onClose }) => {
       key: 'row',
       align: 'center',
       width: '100px',
+      render: text => <Header as="h5">{text}</Header>,
     },
     {
       title: 'Error',
