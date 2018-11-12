@@ -35,7 +35,7 @@ class InputFile extends Component {
       if (file.size > this.props.size * 1024 * 1024) {
         message.error('El archivo excede el límite de peso');
       } else {
-        this.setState({ file: file.originFileObj });
+        this.setState({ file });
       }
     }
   };
@@ -60,7 +60,6 @@ class InputFile extends Component {
 
     const { text, buttonText, loading } = this.props;
     const { file } = this.state;
-
     return (
       <div>
         {!loading ? (
@@ -96,6 +95,7 @@ class InputFile extends Component {
             <div style={{ width: '100%', textAlign: 'center', padding: '1em' }}>
               <Button
                 size="large"
+                type="primary"
                 onClick={this.onUploadButtonPressed}
                 style={{ marginRight: 10 }}
               >

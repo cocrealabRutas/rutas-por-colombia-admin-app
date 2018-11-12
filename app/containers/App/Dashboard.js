@@ -8,6 +8,7 @@ import Layout from 'antd/lib/layout';
 
 // Pages
 import HomePage from '../HomePage/Loadable';
+import TollsUploaderPage from '../TollsUploader/Loadable';
 
 // Components
 import { Header, Sidebar, Footer } from '../Sidebars';
@@ -38,6 +39,11 @@ const Dashboard = () => (
                 >
                   <Switch location={location}>
                     <Route exact path="/" component={HomePage} />
+                    <Route
+                      exact
+                      path="/tolls-upload"
+                      component={TollsUploaderPage}
+                    />
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
