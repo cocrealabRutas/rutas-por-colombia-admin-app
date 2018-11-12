@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, withRouter } from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
 
 // Components
@@ -32,19 +31,11 @@ class App extends React.Component {
 
   render() {
     return (
-      <Route
-        render={({ location }) => (
-          <TransitionGroup>
-            <CSSTransition key={location.key} classNames="fade" timeout={300}>
-              <Switch location={location}>
-                <Route exact path="/login" component={LoginPage} />
-                <Route exact path="/logout" component={Logout} />
-                <PrivateRoute component={Dashboard} />
-              </Switch>
-            </CSSTransition>
-          </TransitionGroup>
-        )}
-      />
+      <Switch>
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/logout" component={Logout} />
+        <PrivateRoute component={Dashboard} />
+      </Switch>
     );
   }
 }

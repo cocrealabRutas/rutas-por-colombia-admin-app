@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
 // Antd
@@ -21,16 +22,32 @@ const Content = styled(ContentLayout)`
 `;
 
 const Dashboard = () => (
-  <Layout style={{ minHeight: '100vh' }}>
-    <Sidebar />
-    <Layout>
-      <Header />
-      <Content>
-        <Route exact path="/" component={HomePage} />
-      </Content>
-      <Footer />
+  <div>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Sidebar />
+      <Layout>
+        <Header />
+        <Content>
+          <Route
+            render={({ location }) => (
+              <TransitionGroup>
+                <CSSTransition
+                  key={location.key}
+                  classNames="fade-page"
+                  timeout={300}
+                >
+                  <Switch location={location}>
+                    <Route exact path="/" component={HomePage} />
+                  </Switch>
+                </CSSTransition>
+              </TransitionGroup>
+            )}
+          />
+        </Content>
+        <Footer />
+      </Layout>
     </Layout>
-  </Layout>
+  </div>
 );
 
 export default Dashboard;
