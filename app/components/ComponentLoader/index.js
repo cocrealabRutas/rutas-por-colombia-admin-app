@@ -16,6 +16,12 @@ class ComponentLoader extends React.PureComponent {
     animationEnds: false,
   };
 
+  componentDidMount = () => {
+    if (!this.props.loading) {
+      this.setState({ animationEnds: true });
+    }
+  };
+
   render() {
     const { Component, loading, ownProps } = this.props;
     const { animationEnds } = this.state;
