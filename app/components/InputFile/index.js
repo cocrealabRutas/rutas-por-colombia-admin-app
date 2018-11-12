@@ -28,6 +28,7 @@ class InputFile extends Component {
 
   state = {
     file: null,
+    fileList: [],
   };
 
   onChange = ({ file }) => {
@@ -35,7 +36,7 @@ class InputFile extends Component {
       if (file.size > this.props.size * 1024 * 1024) {
         message.error('El archivo excede el límite de peso');
       } else {
-        this.setState({ file });
+        this.setState({ file, fileList: [file] });
       }
     }
   };
@@ -47,7 +48,10 @@ class InputFile extends Component {
   };
 
   render() {
-    const props = {
+    const { text, buttonText, loading } = this.props;
+    const { file, fileList } = this.state;
+
+    const inputProps = {
       name: 'file',
       action: null,
       beforeUpload() {
@@ -56,14 +60,13 @@ class InputFile extends Component {
       multiple: false,
       onChange: this.onChange,
       accept: this.props.format,
+      fileList,
+      onRemove: null,
     };
-
-    const { text, buttonText, loading } = this.props;
-    const { file } = this.state;
     return (
       <div>
         {!loading ? (
-          <Dragger {...props}>
+          <Dragger {...inputProps}>
             <p className="ant-upload-drag-icon">
               <Icon type="inbox" />
             </p>
