@@ -79,7 +79,12 @@ export const checkSession = () => async dispatch => {
           Authorization: `Bearer ${token}`,
         },
       });
-      dispatch(authSuccess(data));
+      dispatch(
+        authSuccess({
+          user: data,
+          token,
+        }),
+      );
     } catch (error) {
       dispatch(authFail());
       throw new Error(

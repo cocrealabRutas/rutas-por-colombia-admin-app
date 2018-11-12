@@ -1,25 +1,36 @@
 /*
  * HomePage
  *
- * This is the first thing users see of our App, at the '/' route
- *
- * NOTE: while this component should technically be a stateless functional
- * component (SFC), hot reloading does not currently support SFCs. If hot
- * reloading is not a necessity for you then you can refactor it and remove
- * the linting exception.
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
+
+// Semantic
+import { Header } from 'semantic-ui-react';
+
+// Components
+import { withAuth } from 'containers/Auth';
 
 /* eslint-disable react/prefer-stateless-function */
-export default class HomePage extends React.PureComponent {
+class HomePage extends React.PureComponent {
+  static propTypes = {
+    userData: PropTypes.object.isRequired,
+  };
+
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <div>
+        <Helmet>
+          <title>Administrador | Rutas por Colombia</title>
+        </Helmet>
+        <Header as="h2">{`¡Bienvenido ${
+          this.props.userData.session.user.name
+        }!`}</Header>
+      </div>
     );
   }
 }
+
+export default withAuth(HomePage);

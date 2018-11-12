@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 // Images
 import logo from 'images/logo.svg';
@@ -80,6 +81,9 @@ class LoginPage extends Component {
     }
     return (
       <MainContainer>
+        <Helmet>
+          <title>Iniciar sesión en el Administrador | Rutas por Colombia</title>
+        </Helmet>
         <WrapperLogin>
           <LoginImage />
           <WrapperLoginForm>
