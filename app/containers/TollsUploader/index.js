@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import XLSX from 'xlsx';
 import api from 'config/axiosInstance';
+import uuidv4 from 'uuid/v4';
 
 // Semantic
 import { Header, Segment } from 'semantic-ui-react';
@@ -19,6 +20,7 @@ import Button from 'antd/lib/button';
 // Components
 import { withAuth } from 'containers/Auth';
 import InputFile from 'components/InputFile';
+import ErrorsListModal from 'components/ErrorsListModal';
 
 class TollsUploaderPage extends Component {
   static propTypes = {
@@ -33,7 +35,7 @@ class TollsUploaderPage extends Component {
   };
 
   onUpload = async file => {
-    const { errors } = this.state;
+    const errors = [];
     const reader = new FileReader();
     const rABS = false;
     this.setState({ loading: true });
@@ -45,7 +47,7 @@ class TollsUploaderPage extends Component {
       data = XLSX.utils.sheet_to_json(worksheet);
       console.log(data);
       const normalizedData = data.map((item, counter) => {
-        const rowErrors = [];
+        const row = counter + 2;
         const {
           Nombre: name,
           Departamento: state,
@@ -55,23 +57,32 @@ class TollsUploaderPage extends Component {
           Grua: towTruck,
         } = item;
         if (!name) {
-          rowErrors.push('El nombre no puede estar vacío');
+          errors.push({
+            id: uuidv4(),
+            row,
+            error: 'El nombre no puede estar vacío.',
+          });
         }
         if (!state) {
-          rowErrors.push('La categoría no puede estar vacía');
+          errors.push({
+            id: uuidv4(),
+            row,
+            error: 'La categoría no puede estar vacía.',
+          });
         }
         if (!categoryPrices || categoryPrices.split(',').length < 1) {
-          rowErrors.push('Debe haber al menos un valor');
+          errors.push({
+            id: uuidv4(),
+            row,
+            error: 'Debe haber al menos un valor en el precio del peaje.',
+          });
         }
         if (!coordinates || coordinates.split(',').length < 2) {
-          rowErrors.push(
-            'Las coordenadas no pueden estar vacías. Debe haber Latitud y Longitud.',
-          );
-        }
-        if (rowErrors.length > 0) {
           errors.push({
-            rowIndex: counter,
-            errors: rowErrors,
+            id: uuidv4(),
+            row,
+            error:
+              'Las coordenadas no pueden estar vacías. Debe haber Latitud y Longitud.',
           });
         }
         return {
@@ -181,6 +192,11 @@ class TollsUploaderPage extends Component {
           text="Sube tu archivo de peajes en formato .xlsx"
           onUpload={this.onUpload}
           loading={loading}
+        />
+        <ErrorsListModal
+          errors={errors}
+          open={error}
+          onClose={this.closeModalError}
         />
         <Segment textAlign="center">
           <Button
