@@ -3,16 +3,15 @@ import { Route } from 'react-router-dom';
 import styled from 'styled-components';
 
 // Antd
-import AntdLayout from 'antd/lib/layout';
+import Layout from 'antd/lib/layout';
 
 // Pages
 import HomePage from '../HomePage/Loadable';
 
-const { Content: ContentLayout } = AntdLayout;
+// Components
+import { Header, Sidebar, Footer } from '../Sidebars';
 
-const Layout = styled(AntdLayout)`
-  background-color: ${props => props.theme.grey};
-`;
+const { Content: ContentLayout } = Layout;
 
 const Content = styled(ContentLayout)`
   background: #fff;
@@ -22,13 +21,16 @@ const Content = styled(ContentLayout)`
 `;
 
 const Dashboard = () => (
-  <AntdLayout style={{ minHeight: '100vh', backgroundColor: '#FFF' }}>
+  <Layout style={{ minHeight: '100vh' }}>
+    <Sidebar />
     <Layout>
+      <Header />
       <Content>
         <Route exact path="/" component={HomePage} />
       </Content>
+      <Footer />
     </Layout>
-  </AntdLayout>
+  </Layout>
 );
 
 export default Dashboard;
