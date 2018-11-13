@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import XLSX from 'xlsx';
+import Helmet from 'react-helmet';
 import api from 'config/axiosInstance';
 import uuidv4 from 'uuid/v4';
 
@@ -260,6 +261,9 @@ class TollsUploaderPage extends Component {
     const { loading, errors, error, loadingDownload } = this.state;
     return (
       <div>
+        <Helmet>
+          <title>Cargar peajes | Rutas por Colombia</title>
+        </Helmet>
         <Header as="h2" textAlign="center">
           Cargar listado de Peajes
         </Header>
@@ -267,7 +271,8 @@ class TollsUploaderPage extends Component {
           size={32}
           format=".xlsx"
           buttonText="Cargar peajes"
-          text="Sube tu archivo de peajes en formato .xlsx"
+          draggerZoneText="Haz click o arrastra aquí el archivo"
+          text="Tu archivo debe estar en formato de Excel .xlsx"
           onUpload={this.onUpload}
           loading={loading}
         />

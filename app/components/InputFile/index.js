@@ -21,6 +21,7 @@ class InputFile extends Component {
     loading: PropTypes.bool.isRequired,
     format: PropTypes.string.isRequired,
     buttonText: PropTypes.string.isRequired,
+    draggerZoneText: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     onUpload: PropTypes.func,
     size: PropTypes.number.isRequired,
@@ -48,7 +49,7 @@ class InputFile extends Component {
   };
 
   render() {
-    const { text, buttonText, loading } = this.props;
+    const { text, buttonText, draggerZoneText, loading } = this.props;
     const { file, fileList } = this.state;
 
     const inputProps = {
@@ -70,7 +71,7 @@ class InputFile extends Component {
             <p className="ant-upload-drag-icon">
               <Icon type="inbox" />
             </p>
-            <p className="ant-upload-text">{buttonText}</p>
+            <p className="ant-upload-text">{draggerZoneText}</p>
             <p className="ant-upload-hint">{text}</p>
           </Dragger>
         ) : (
