@@ -132,22 +132,20 @@ class TollsUploaderPage extends Component {
               'La longitud no puede estar vacía. El campo debe ser de tipo decimal.',
           });
         }
-        return {
-          name,
-          state,
+        const prices = [
           categoryPrice1,
           categoryPrice2,
           categoryPrice3,
           categoryPrice4,
           categoryPrice5,
-          categoryPrice6: Number.isNaN(parseInt(categoryPrice6, 10))
-            ? null
-            : categoryPrice6,
-          categoryPrice7: Number.isNaN(parseInt(categoryPrice7, 10))
-            ? null
-            : categoryPrice7,
-          latitude,
-          longitude,
+          Number.isNaN(parseInt(categoryPrice6, 10)) ? null : categoryPrice6,
+          Number.isNaN(parseInt(categoryPrice7, 10)) ? null : categoryPrice7,
+        ];
+        return {
+          name,
+          state,
+          prices,
+          coordinates: { lat: latitude, lng: longitude },
           phone: phone || null,
           towTruck: towTruck || null,
         };
@@ -163,7 +161,7 @@ class TollsUploaderPage extends Component {
               headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
-                Authorization: `Bearer ${this.props.userData.token}`,
+                Authorization: `Bearer ${this.props.userData.session.token}`,
               },
             },
           );
@@ -196,24 +194,29 @@ class TollsUploaderPage extends Component {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
+          Authorization: `Bearer ${this.props.userData.session.token}`,
         },
       });
       const tollCollectors = [];
-      for (let i = 0; i < data.customId.length; i += 1) {
+      for (let i = 0; i < data.length; i += 1) {
+        const [price1, price2, price3, price4, price5, price6, price7] = data[
+          i
+        ].prices;
+        const { lat, lng } = data[i].coordinates;
         tollCollectors.push({
-          Nombre: data.name[i],
-          Departamento: data.state[i],
-          'Categoria 1': data.categoryPrice1[i],
-          'Categoria 2': data.categoryPrice2[i],
-          'Categoria 3': data.categoryPrice3[i],
-          'Categoria 4': data.categoryPrice4[i],
-          'Categoria 5': data.categoryPrice5[i],
-          'Categoria 6': data.categoryPrice6[i],
-          'Categoria 7': data.categoryPrice7[i],
-          Latitud: data.latitude[i],
-          Longitud: data.longitude[i],
-          Telefono: data.phone[i],
-          Grua: data.towTruck[i],
+          Nombre: data[i].name,
+          Departamento: data[i].state,
+          'Categoria 1': price1 ? parseInt(price1, 10) : null,
+          'Categoria 2': price2 ? parseInt(price2, 10) : null,
+          'Categoria 3': price3 ? parseInt(price3, 10) : null,
+          'Categoria 4': price4 ? parseInt(price4, 10) : null,
+          'Categoria 5': price5 ? parseInt(price5, 10) : null,
+          'Categoria 6': price6 ? parseInt(price6, 10) : null,
+          'Categoria 7': price7 ? parseInt(price7, 10) : null,
+          Latitud: parseFloat(lat),
+          Longitud: parseFloat(lng),
+          Telefono: data[i].phone,
+          Grua: data[i].towTruck,
         });
       }
       const ws = XLSX.utils.json_to_sheet(tollCollectors, {
@@ -245,6 +248,7 @@ class TollsUploaderPage extends Component {
         loadingDownload: false,
       });
       message.error('Ocurrió un error inesperado, intente nuevamente');
+      throw error;
     }
   };
 
