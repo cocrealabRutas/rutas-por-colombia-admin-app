@@ -15,7 +15,7 @@ import {
 
 const MainHeader = () => (
   <Header>
-    <HeaderMenu mode="horizontal">
+    <HeaderMenu mode="horizontal" theme="dark">
       <MenuItem>
         <Dropdown
           placement="bottomRight"
