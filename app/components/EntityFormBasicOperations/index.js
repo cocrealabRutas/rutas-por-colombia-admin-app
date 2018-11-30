@@ -6,20 +6,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import isEmpty from 'lodash/isEmpty';
+import api from 'config/axiosInstance';
 
 // Antd
 import message from 'antd/lib/message';
 import Skeleton from 'antd/lib/skeleton';
 
 // Components
-import { Auth } from 'containers/Auth';
-
-// Constants
-import { API_URL } from '../../constants';
+import { withAuth } from 'containers/Auth';
 
 const withEntityFormBasicOperations = WrappedComponent => {
   class EntityFormBasicOperations extends React.Component {
@@ -32,7 +29,7 @@ const withEntityFormBasicOperations = WrappedComponent => {
       super(props);
       const { entityPath, match } = props;
       this.entityPath = entityPath;
-      this.cancelTokenSource = axios.CancelToken.source();
+      this.cancelTokenSource = api.CancelToken.source();
       if (!isEmpty(match.params.action) && match.params.action === 'edit') {
         this.entityPath = `${entityPath}/${match.params.id}`;
       }
@@ -60,21 +57,18 @@ const withEntityFormBasicOperations = WrappedComponent => {
     fetchData = async () => {
       this.setState({ loading: true });
       try {
-        const { data } = await axios.get(
-          `${API_URL}entity/${this.entityPath}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            cancelToken: this.cancelTokenSource.token,
+        const { data } = await api.get(`/entity/${this.entityPath}`, {
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+          cancelToken: this.cancelTokenSource.token,
+        });
         this.setState({ data });
         setTimeout(() => {
           this.setState({ loading: false, status: 'SUCCESS' });
         }, 1000);
       } catch (error) {
-        if (!axios.isCancel(error)) {
+        if (!api.isCancel(error)) {
           message.error('Error loading de data. Please reload the page', 5);
           this.setState({ loading: false, status: 'FAIL' });
           throw error;
@@ -90,17 +84,15 @@ const withEntityFormBasicOperations = WrappedComponent => {
         if (!isEmpty(match.params.action) && match.params.action === 'new') {
           method = 'post';
         }
-        await axios[method](
-          `${API_URL}entity/${this.entityPath}`,
+        await api[method](
+          `/entity/${this.entityPath}`,
           {
             ...data,
           },
           {
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${
-                this.props.userData.session.token.idToken.jwtToken
-              }`,
+              Authorization: `Bearer ${this.props.userData.session.token}`,
             },
             cancelToken: this.cancelTokenSource.token,
           },
@@ -109,7 +101,7 @@ const withEntityFormBasicOperations = WrappedComponent => {
         message.success('Data saved successfully');
         this.props.history.push(`/${this.entityPath.split('/')[0]}`);
       } catch (error) {
-        if (!axios.isCancel(error)) {
+        if (!api.isCancel(error)) {
           message.error(error.response.data.message, 4);
           this.setState({ loading: false });
           throw error;
@@ -151,7 +143,7 @@ const withEntityFormBasicOperations = WrappedComponent => {
 
   const enhance = compose(
     withRouter,
-    Auth,
+    withAuth,
   );
 
   return enhance(EntityFormBasicOperations);
