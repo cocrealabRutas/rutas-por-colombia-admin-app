@@ -101,7 +101,15 @@
     "styled-components": "4.1.2",
     "uuid": "^3.3.2",
     "warning": "4.0.2",
-    "xlsx": "^0.14.1"
+    "xlsx": "^0.14.1",
+    "draftjs-to-html": "^0.8.4",
+    "html-to-draftjs": "^1.4.0",
+    "immutability-helper": "^2.8.1",
+    "loaders.css": "^0.1.2",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^5.0.1",
+    "react-draft-wysiwyg": "^1.12.13",
+    "react-loaders": "^3.0.1"
   },
   "devDependencies": {
     "@babel/cli": "7.1.5",
