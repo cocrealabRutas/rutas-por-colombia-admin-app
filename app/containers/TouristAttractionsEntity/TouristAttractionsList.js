@@ -17,14 +17,14 @@ class TouristAttractionsList extends React.PureComponent {
   render() {
     const columns = [
       {
-        title: 'Initials',
-        dataIndex: 'initials',
-        render: initials => <span>{initials}</span>,
+        title: 'Nombre',
+        dataIndex: 'name',
+        render: name => <span>{name}</span>,
       },
       {
-        title: 'City',
-        dataIndex: 'city',
-        render: city => <span>{city}</span>,
+        title: 'Descripción',
+        dataIndex: 'description',
+        render: description => <span>{description}</span>,
       },
     ];
     return (

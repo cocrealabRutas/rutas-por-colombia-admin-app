@@ -9,6 +9,10 @@ import Layout from 'antd/lib/layout';
 // Pages
 import HomePage from '../HomePage/Loadable';
 import TollsUploaderPage from '../TollsUploader/Loadable';
+import {
+  TouristAttractionsList,
+  TouristAttractionForm,
+} from '../TouristAttractionsEntity';
 
 // Components
 import { Header, Sidebar, Footer } from '../Sidebars';
@@ -43,6 +47,23 @@ const Dashboard = () => (
                       exact
                       path="/tolls-upload"
                       component={TollsUploaderPage}
+                    />
+
+                    {/* Careers Entity */}
+                    <Route
+                      exact
+                      path="/touristAttraction"
+                      component={TouristAttractionsList}
+                    />
+                    <Route
+                      exact
+                      path="/touristAttraction/:action"
+                      component={TouristAttractionForm}
+                    />
+                    <Route
+                      exact
+                      path="/touristAttraction/:action/:id"
+                      component={TouristAttractionForm}
                     />
                   </Switch>
                 </CSSTransition>
