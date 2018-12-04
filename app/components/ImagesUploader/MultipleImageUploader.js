@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import memoize from 'memoizee';
 import api from 'config/axiosInstance';
+import axios from 'axios';
 
 // Antd
 import Upload from 'antd/lib/upload';
@@ -33,6 +34,11 @@ class MultipleImageUploader extends React.PureComponent {
     value: PropTypes.any,
     userData: PropTypes.object.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+    this.cancelTokenSource = axios.CancelToken.source();
+  }
 
   state = {
     loading: false,
@@ -69,7 +75,7 @@ class MultipleImageUploader extends React.PureComponent {
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${this.props.userData.session.token}`,
           },
           cancelToken: this.cancelTokenSource.token,

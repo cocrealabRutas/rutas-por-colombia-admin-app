@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import api from 'config/axiosInstance';
+import axios from 'axios';
 
 // Antd
 import Upload from 'antd/lib/upload';
@@ -32,6 +33,11 @@ class SingleImageUploader extends React.PureComponent {
     value: PropTypes.object,
     userData: PropTypes.object.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+    this.cancelTokenSource = axios.CancelToken.source();
+  }
 
   state = {
     loading: false,
@@ -61,7 +67,7 @@ class SingleImageUploader extends React.PureComponent {
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${this.props.userData.session.token}`,
           },
           cancelToken: this.cancelTokenSource.token,
