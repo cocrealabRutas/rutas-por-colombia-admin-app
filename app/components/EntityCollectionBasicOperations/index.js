@@ -7,6 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import api from 'config/axiosInstance';
+import axios from 'axios';
 
 // Antd
 import message from 'antd/lib/message';
@@ -18,7 +19,7 @@ const withEntityCollectionBasicOperations = WrappedComponent => {
   class EntityCollectionBasicOperations extends React.Component {
     constructor(props) {
       super(props);
-      this.cancelTokenSource = api.CancelToken.source();
+      this.cancelTokenSource = axios.CancelToken.source();
     }
 
     state = {

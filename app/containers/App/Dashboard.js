@@ -49,7 +49,7 @@ const Dashboard = () => (
                       component={TollsUploaderPage}
                     />
 
-                    {/* Careers Entity */}
+                    {/* Tourist Attractions Entity */}
                     <Route
                       exact
                       path="/touristAttraction"

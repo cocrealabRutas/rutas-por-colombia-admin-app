@@ -59,8 +59,8 @@ class SideBar extends Component {
               </span>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="places">
-            <NavLink to="/places" className="item">
+          <Menu.Item key="touristAttraction">
+            <NavLink to="/touristAttraction" className="item">
               <span>
                 <Icon type="flag" />
                 <span>Sitios turísticos</span>

@@ -6,8 +6,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Storage } from 'aws-amplify';
 import isEmpty from 'lodash/isEmpty';
+import api from 'config/axiosInstance';
 
 // Antd
 import Upload from 'antd/lib/upload';
@@ -18,8 +18,8 @@ import Modal from 'antd/lib/modal';
 // Semantic
 import { Segment } from 'semantic-ui-react';
 
-// Constants
-import { S3_URL } from 'constants.js';
+// Components
+import { withAuth } from 'containers/Auth';
 
 /* eslint-disable react/prefer-stateless-function */
 class SingleImageUploader extends React.PureComponent {
@@ -30,6 +30,7 @@ class SingleImageUploader extends React.PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
     value: PropTypes.object,
+    userData: PropTypes.object.isRequired,
   };
 
   state = {
@@ -47,14 +48,28 @@ class SingleImageUploader extends React.PureComponent {
 
   onChange = async info => {
     const { file } = info;
+    const data = new FormData();
+    data.append('image', file);
     this.setState({ loading: true });
     try {
-      const { key } = await Storage.put(`${Date.now()}.${file.name}`, file, {
-        contentType: file.type,
-      });
+      const {
+        data: { key, url },
+      } = await api.post(
+        '/files/images',
+        {
+          data,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${this.props.userData.session.token}`,
+          },
+          cancelToken: this.cancelTokenSource.token,
+        },
+      );
       this.props.onChange({
         key,
-        url: `${S3_URL}public/${key}`,
+        url,
       });
     } catch (error) {
       console.log(error);
@@ -64,10 +79,22 @@ class SingleImageUploader extends React.PureComponent {
     }
   };
 
-  onRemove = async ({ key }) => {
+  onRemove = async ({ url }) => {
     this.setState({ loading: true });
     try {
-      await Storage.remove(key);
+      await api.post(
+        '/files/images/delete',
+        {
+          url,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${this.props.userData.session.token}`,
+          },
+          cancelToken: this.cancelTokenSource.token,
+        },
+      );
       this.props.onChange({});
     } catch (error) {
       console.log(error);
@@ -124,4 +151,4 @@ class SingleImageUploader extends React.PureComponent {
   }
 }
 
-export default SingleImageUploader;
+export default withAuth(SingleImageUploader);

@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import isEmpty from 'lodash/isEmpty';
 import api from 'config/axiosInstance';
+import axios from 'axios';
 
 // Antd
 import message from 'antd/lib/message';
@@ -29,7 +30,7 @@ const withEntityFormBasicOperations = WrappedComponent => {
       super(props);
       const { entityPath, match } = props;
       this.entityPath = entityPath;
-      this.cancelTokenSource = api.CancelToken.source();
+      this.cancelTokenSource = axios.CancelToken.source();
       if (!isEmpty(match.params.action) && match.params.action === 'edit') {
         this.entityPath = `${entityPath}/${match.params.id}`;
       }
