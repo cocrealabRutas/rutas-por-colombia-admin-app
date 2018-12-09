@@ -94,10 +94,10 @@ class DragSortingTable extends React.Component {
             </Link>
             <Divider type="vertical" />
             <Popconfirm
-              title="Are you sure to delete this record?"
+              title="¿Estás seguro que deseas eliminar esta fila?"
               onConfirm={() => this.props.deleteRow(id)}
               onCancel={() => {}}
-              okText="Yes"
+              okText="Sí"
               cancelText="No"
             >
               <Icon

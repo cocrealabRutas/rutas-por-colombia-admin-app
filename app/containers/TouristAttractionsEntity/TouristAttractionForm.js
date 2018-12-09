@@ -56,7 +56,7 @@ class TouristAttractionForm extends React.PureComponent {
       <div>
         <Segment basic textAlign="center">
           <Header as="h2">{`${
-            action === 'edit' ? 'Editar' : 'Nuevo'
+            action === 'Edit' ? 'Editar' : 'Nuevo'
           } Sitio Turístico`}</Header>
         </Segment>
         <Form onSubmit={this.handleSubmit}>
