@@ -6,7 +6,7 @@ const validator = (rule, value, callback) => {
       callback();
       return;
     }
-    callback('Image is required');
+    callback('Es requerida al menos una imagen');
   }
   callback();
 };

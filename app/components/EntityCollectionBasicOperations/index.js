@@ -54,7 +54,7 @@ const withEntityCollectionBasicOperations = WrappedComponent => {
         }));
         this.setState({ data, loading: false });
       } catch (error) {
-        if (!api.isCancel(error)) {
+        if (!axios.isCancel(error)) {
           this.setState({ loading: false });
           message.error('Error loading de data. Please reload the page', 5);
           throw error;
@@ -81,7 +81,7 @@ const withEntityCollectionBasicOperations = WrappedComponent => {
         message.success('Data saved successfully');
         this.setState({ data, loading: false });
       } catch (error) {
-        if (!api.isCancel(error)) {
+        if (!axios.isCancel(error)) {
           this.setState({ loading: false });
           message.error(error.response.data.message, 4);
           throw error;
@@ -108,8 +108,8 @@ const withEntityCollectionBasicOperations = WrappedComponent => {
         this.setState({ data: newState });
         message.success('Data deleted successfully');
       } catch (error) {
-        console.log(error.response);
         message.error(error.response.data.message, 4);
+        throw error;
       } finally {
         this.setState({
           rowLoading: {

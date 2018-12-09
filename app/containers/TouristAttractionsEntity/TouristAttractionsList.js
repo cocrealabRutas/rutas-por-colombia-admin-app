@@ -30,7 +30,7 @@ class TouristAttractionsList extends React.PureComponent {
     return (
       <div>
         <Segment basic textAlign="center">
-          <Header as="h2">Tourist Attractions list</Header>
+          <Header as="h2">Listado de sitios turísticos</Header>
         </Segment>
         <EntityTable
           columns={columns}

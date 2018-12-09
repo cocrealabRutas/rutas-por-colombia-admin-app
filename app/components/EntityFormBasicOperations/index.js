@@ -69,7 +69,7 @@ const withEntityFormBasicOperations = WrappedComponent => {
           this.setState({ loading: false, status: 'SUCCESS' });
         }, 1000);
       } catch (error) {
-        if (!api.isCancel(error)) {
+        if (!axios.isCancel(error)) {
           message.error('Error loading de data. Please reload the page', 5);
           this.setState({ loading: false, status: 'FAIL' });
           throw error;
@@ -102,7 +102,7 @@ const withEntityFormBasicOperations = WrappedComponent => {
         message.success('Data saved successfully');
         this.props.history.push(`/${this.entityPath.split('/')[0]}`);
       } catch (error) {
-        if (!api.isCancel(error)) {
+        if (!axios.isCancel(error)) {
           message.error(error.response.data.message, 4);
           this.setState({ loading: false });
           throw error;

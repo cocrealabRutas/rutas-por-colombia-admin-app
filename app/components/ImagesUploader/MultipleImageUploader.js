@@ -60,7 +60,7 @@ class MultipleImageUploader extends React.PureComponent {
     if (!isEmpty(value) && Array.isArray(value)) {
       return value.map(item => ({
         ...item,
-        url: `${endpoints.FILES_ENDPOINT}/${item.url}`,
+        url: `${endpoints.FILES_ENDPOINT}/${item.path}`,
         uid: item.key,
       }));
     }
@@ -74,7 +74,7 @@ class MultipleImageUploader extends React.PureComponent {
     this.setState({ loading: true });
     try {
       const {
-        data: { key, url },
+        data: { key, path },
       } = await api.post('/files/image', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -86,8 +86,7 @@ class MultipleImageUploader extends React.PureComponent {
         ...this.props.value,
         {
           key,
-          url,
-          path: url,
+          path,
         },
       ];
       this.props.onChange(newValue);

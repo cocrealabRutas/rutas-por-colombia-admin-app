@@ -62,7 +62,7 @@ class SingleImageUploader extends React.PureComponent {
     this.setState({ loading: true });
     try {
       const {
-        data: { key, url },
+        data: { key, path },
       } = await api.post('/files/image', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -72,8 +72,7 @@ class SingleImageUploader extends React.PureComponent {
       });
       this.props.onChange({
         key,
-        url,
-        path: url,
+        path,
       });
     } catch (error) {
       message.error('Error trying to upload the image. Please, try again', 4);
@@ -118,7 +117,7 @@ class SingleImageUploader extends React.PureComponent {
       : [
           {
             ...value,
-            url: `${endpoints.FILES_ENDPOINT}/${value.url}`,
+            url: `${endpoints.FILES_ENDPOINT}/${value.path}`,
             uid: -1,
           },
         ];
