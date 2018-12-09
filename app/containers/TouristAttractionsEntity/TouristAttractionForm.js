@@ -57,7 +57,7 @@ class TouristAttractionForm extends React.PureComponent {
         <Form onSubmit={this.handleSubmit}>
           <FormItem label="Office Images">
             {getFieldDecorator('images', {
-              initialValue: data.images || {},
+              initialValue: data.images || [],
               rules: [{ validator: uploaderImagesValidator, required: true }],
             })(<MultipleImageUploader name="Office Images" />)}
           </FormItem>

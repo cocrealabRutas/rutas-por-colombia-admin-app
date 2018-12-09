@@ -22,6 +22,9 @@ import { Segment } from 'semantic-ui-react';
 // Components
 import { withAuth } from 'containers/Auth';
 
+// Constants
+import endpoints from 'config/endpoints.json';
+
 /* eslint-disable react/prefer-stateless-function */
 class SingleImageUploader extends React.PureComponent {
   static defaultProps = {
@@ -60,38 +63,33 @@ class SingleImageUploader extends React.PureComponent {
     try {
       const {
         data: { key, url },
-      } = await api.post(
-        '/files/images',
-        {
-          data,
+      } = await api.post('/files/image', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${this.props.userData.session.token}`,
         },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${this.props.userData.session.token}`,
-          },
-          cancelToken: this.cancelTokenSource.token,
-        },
-      );
+        cancelToken: this.cancelTokenSource.token,
+      });
       this.props.onChange({
         key,
         url,
+        path: url,
       });
     } catch (error) {
-      console.log(error);
       message.error('Error trying to upload the image. Please, try again', 4);
+      throw error;
     } finally {
       this.setState({ loading: false });
     }
   };
 
-  onRemove = async ({ url }) => {
+  onRemove = async ({ path }) => {
     this.setState({ loading: true });
     try {
       await api.post(
-        '/files/images/delete',
+        '/files/image/delete',
         {
-          url,
+          path,
         },
         {
           headers: {
@@ -103,8 +101,8 @@ class SingleImageUploader extends React.PureComponent {
       );
       this.props.onChange({});
     } catch (error) {
-      console.log(error);
       message.error('Error deleting image. Try again', 4);
+      throw error;
     } finally {
       this.setState({ loading: false });
     }
@@ -115,7 +113,15 @@ class SingleImageUploader extends React.PureComponent {
   render() {
     const { loading, previewVisible, previewImage } = this.state;
     const { value } = this.props;
-    const derivedData = isEmpty(value) ? [] : [{ ...value, uid: -1 }];
+    const derivedData = isEmpty(value)
+      ? []
+      : [
+          {
+            ...value,
+            url: `${endpoints.FILES_ENDPOINT}/${value.url}`,
+            uid: -1,
+          },
+        ];
     const avatar = () => {
       if (derivedData.length > 0) {
         return null;

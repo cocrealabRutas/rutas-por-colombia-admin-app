@@ -23,6 +23,9 @@ import { Segment } from 'semantic-ui-react';
 // Components
 import { withAuth } from 'containers/Auth';
 
+// Constants
+import endpoints from 'config/endpoints.json';
+
 /* eslint-disable react/prefer-stateless-function */
 class MultipleImageUploader extends React.PureComponent {
   static defaultProps = {
@@ -55,7 +58,11 @@ class MultipleImageUploader extends React.PureComponent {
 
   derivedData = memoize(value => {
     if (!isEmpty(value) && Array.isArray(value)) {
-      return value.map(item => ({ ...item, uid: item.key }));
+      return value.map(item => ({
+        ...item,
+        url: `${endpoints.FILES_ENDPOINT}/${item.url}`,
+        uid: item.key,
+      }));
     }
     return [];
   });
@@ -68,24 +75,19 @@ class MultipleImageUploader extends React.PureComponent {
     try {
       const {
         data: { key, url },
-      } = await api.post(
-        '/files/images',
-        {
-          data,
+      } = await api.post('/files/image', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${this.props.userData.session.token}`,
         },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${this.props.userData.session.token}`,
-          },
-          cancelToken: this.cancelTokenSource.token,
-        },
-      );
+        cancelToken: this.cancelTokenSource.token,
+      });
       const newValue = [
         ...this.props.value,
         {
           key,
           url,
+          path: url,
         },
       ];
       this.props.onChange(newValue);
@@ -97,13 +99,13 @@ class MultipleImageUploader extends React.PureComponent {
     }
   };
 
-  onRemove = async ({ url, key }) => {
+  onRemove = async ({ path, key }) => {
     this.setState({ loading: true });
     try {
       await api.post(
-        '/files/images/delete',
+        '/files/image/delete',
         {
-          url,
+          path,
         },
         {
           headers: {
