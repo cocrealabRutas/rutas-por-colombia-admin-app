@@ -62,33 +62,6 @@ const withEntityCollectionBasicOperations = WrappedComponent => {
       }
     };
 
-    updateCollection = async data => {
-      this.setState({ loading: true });
-      try {
-        await api.put(
-          `/entity/${this.props.entityPath}`,
-          {
-            data,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${this.props.userData.session.token}`,
-            },
-            cancelToken: this.cancelTokenSource.token,
-          },
-        );
-        message.success('Data saved successfully');
-        this.setState({ data, loading: false });
-      } catch (error) {
-        if (!axios.isCancel(error)) {
-          this.setState({ loading: false });
-          message.error(error.response.data.message, 4);
-          throw error;
-        }
-      }
-    };
-
     deleteRow = async id => {
       const { data } = this.state;
       this.setState({

@@ -17,7 +17,7 @@ import { Segment, Dimmer } from 'semantic-ui-react';
 
 // Components
 import withEntityCollectionBasicOperations from 'components/EntityCollectionBasicOperations';
-import DragSortingTable from 'components/DragSortingTable';
+import TableWithActions from './TableWithActions';
 
 /* eslint-disable react/prefer-stateless-function */
 class EntityTable extends React.PureComponent {
@@ -28,7 +28,6 @@ class EntityTable extends React.PureComponent {
     entityType: PropTypes.string.isRequired,
     rowLoading: PropTypes.object.isRequired,
     deleteRow: PropTypes.func.isRequired,
-    updateCollection: PropTypes.func.isRequired,
   };
 
   render() {
@@ -43,10 +42,9 @@ class EntityTable extends React.PureComponent {
             <Link to={`/${entityType}/new`}>Add New</Link>
           </Button>
         </Segment>
-        <DragSortingTable
+        <TableWithActions
           data={data}
           columns={columns}
-          onMoveRow={this.props.updateCollection}
           rowLoading={rowLoading}
           deleteRow={this.props.deleteRow}
           entityType={entityType}

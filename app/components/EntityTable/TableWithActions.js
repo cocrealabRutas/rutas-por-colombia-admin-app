@@ -1,16 +1,13 @@
 /**
  *
- * DragSortingTable
+ * TableWithActions
  *
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import Table from 'antd/lib/table';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import memoize from 'memoizee';
 
@@ -23,22 +20,9 @@ import Divider from 'antd/lib/divider';
 // Semantic
 import { Icon } from 'semantic-ui-react';
 
-// Components
-import DragableBodyRowComponent from './DragableBodyRow';
-
-const DragableBodyRow = styled(DragableBodyRowComponent)`
-  &.drop-over-downward td {
-    border-bottom: 2px dashed ${props => props.theme.primaryColor};
-  }
-
-  &.drop-over-upward td {
-    border-top: 2px dashed ${props => props.theme.primaryColor};
-  }
-`;
-
 const antIcon = <AntdIcon type="loading" spin />;
 
-class DragSortingTable extends React.Component {
+class TableWithActions extends React.Component {
   static defaultProps = {
     onMoveRow: () => {},
     deleteRow: () => {},
@@ -53,12 +37,6 @@ class DragSortingTable extends React.Component {
     entityType: PropTypes.string.isRequired,
   };
 
-  components = {
-    body: {
-      row: DragableBodyRow,
-    },
-  };
-
   moveRow = (dragIndex, hoverIndex) => {
     const { data } = this.props;
     const dragRow = data[dragIndex];
@@ -71,14 +49,6 @@ class DragSortingTable extends React.Component {
   };
 
   actionsColumn = memoize((columns, rowLoading, entityType) => {
-    const counterColumn = {
-      title: 'Order',
-      key: 'order',
-      render: (text, record, index) => <span>{index + 1}</span>,
-    };
-    const columsWithCounter = update(columns, {
-      $splice: [[0, 0, counterColumn]],
-    });
     const actionsColumn = {
       title: '',
       align: 'right',
@@ -110,7 +80,7 @@ class DragSortingTable extends React.Component {
         );
       },
     };
-    return update(columsWithCounter, { $push: [actionsColumn] });
+    return update(columns, { $push: [actionsColumn] });
   });
 
   render() {
@@ -121,15 +91,10 @@ class DragSortingTable extends React.Component {
         rowKey="id"
         columns={derivedColumns}
         dataSource={data}
-        components={this.components}
-        onRow={(record, index) => ({
-          index,
-          moveRow: this.moveRow,
-        })}
         pagination={false}
       />
     );
   }
 }
 
-export default DragDropContext(HTML5Backend)(DragSortingTable);
+export default TableWithActions;
