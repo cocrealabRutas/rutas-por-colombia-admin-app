@@ -42,12 +42,16 @@ const withEntityCollectionBasicOperations = WrappedComponent => {
     fetchData = async () => {
       this.setState({ loading: true });
       try {
-        const { data } = await api.get(`/entity/${this.props.entityPath}`, {
+        const response = await api.get(`/entity/${this.props.entityPath}`, {
           headers: {
             'Content-Type': 'application/json',
           },
           cancelToken: this.cancelTokenSource.token,
         });
+        const data = response.data.map(item => ({
+          ...item,
+          id: item._id,
+        }));
         this.setState({ data, loading: false });
       } catch (error) {
         if (!api.isCancel(error)) {

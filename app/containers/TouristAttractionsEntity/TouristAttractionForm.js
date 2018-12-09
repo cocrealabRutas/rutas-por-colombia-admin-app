@@ -114,7 +114,7 @@ class TouristAttractionForm extends React.PureComponent {
 }
 
 const enhance = compose(
-  defaultProps({ entityPath: 'offices/collection' }),
+  defaultProps({ entityPath: 'touristAttraction' }),
   withEntityFormBasicOperations,
   Form.create(),
 );

@@ -79,6 +79,7 @@ module.exports = {
     'redux-saga/yield-effects': 2,
     'require-yield': 0,
     indent: 'off',
+    'no-underscore-dangle': 'off',
   },
   settings: {
     'import/resolver': {
