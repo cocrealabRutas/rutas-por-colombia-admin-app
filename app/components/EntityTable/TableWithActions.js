@@ -91,7 +91,9 @@ class TableWithActions extends React.Component {
         rowKey="id"
         columns={derivedColumns}
         dataSource={data}
-        pagination={false}
+        pagination={{
+          pageSize: 20,
+        }}
       />
     );
   }
