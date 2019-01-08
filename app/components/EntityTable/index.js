@@ -39,7 +39,7 @@ class EntityTable extends React.PureComponent {
         </Dimmer>
         <Segment basic textAlign="right">
           <Button type="primary" size="large">
-            <Link to={`/${entityType}/new`}>Add New</Link>
+            <Link to={`/${entityType}/new`}>Agregar nuevo</Link>
           </Button>
         </Segment>
         <TableWithActions

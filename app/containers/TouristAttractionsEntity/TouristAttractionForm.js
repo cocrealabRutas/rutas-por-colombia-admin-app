@@ -159,7 +159,7 @@ class TouristAttractionForm extends React.PureComponent {
               size="large"
               loading={loading}
             >
-              Save
+              Guardar
             </Button>
           </FormItem>
         </Form>

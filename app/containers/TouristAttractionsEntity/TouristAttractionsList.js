@@ -21,11 +21,6 @@ class TouristAttractionsList extends React.PureComponent {
         dataIndex: 'name',
         render: name => <span>{name}</span>,
       },
-      {
-        title: 'Descripción',
-        dataIndex: 'description',
-        render: description => <span>{description}</span>,
-      },
     ];
     return (
       <div>

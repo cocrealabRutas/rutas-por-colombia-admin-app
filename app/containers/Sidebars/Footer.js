@@ -10,7 +10,7 @@ const { Footer } = Layout;
 
 const FooterComponent = () => (
   <Footer style={{ textAlign: 'center' }}>
-    <Header as="h6">©2018 MinTIC. Todos los derechos reservados.</Header>
+    <Header as="h6">©2019 MinTIC. Todos los derechos reservados.</Header>
   </Footer>
 );
 

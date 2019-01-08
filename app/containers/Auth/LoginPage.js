@@ -52,7 +52,7 @@ class LoginPage extends Component {
   };
 
   loginUser = async (email, password) => {
-    const loading = message.loading('Sign in...', 0);
+    const loading = message.loading('Iniciando sesión...', 0);
     this.setState({ loading: true });
     try {
       await this.props.loginUser(email, password);
@@ -60,11 +60,14 @@ class LoginPage extends Component {
     } catch (code) {
       if (code === 401) {
         message.error(
-          'Not authorized to perform this action, only admin user have access.',
+          'No autorizado para realizar esta acción. Sólo un usuario administrador.',
           5,
         );
       } else {
-        message.error('Incorrect user or password. Please try again.', 4);
+        message.error(
+          'Email o contraseña incorrecta. Por favor intenta de nuevo.',
+          4,
+        );
       }
       this.setState({ loading: false });
     } finally {
@@ -94,7 +97,7 @@ class LoginPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: 'Please introduce your e-mail',
+                      message: 'Por favor ingresa tu e-mail',
                     },
                   ],
                 })(
@@ -111,7 +114,7 @@ class LoginPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: 'Please introduce your password',
+                      message: 'Por favor introduce tu contraseña',
                     },
                   ],
                 })(
@@ -120,7 +123,7 @@ class LoginPage extends Component {
                       <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
                     }
                     type="password"
-                    placeholder="Password"
+                    placeholder="Contraseña"
                   />,
                 )}
               </FormItem>
@@ -132,7 +135,7 @@ class LoginPage extends Component {
                   className="login-form-button"
                   block
                 >
-                  Log In
+                  Iniciar Sesión
                 </Button>
               </FormItem>
             </LoginForm>

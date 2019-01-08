@@ -24,7 +24,7 @@ const MainHeader = () => (
               <HeaderMenu.Item>
                 <Icon type="logout" />
                 <span>
-                  <Link to="/logout">Log out</Link>
+                  <Link to="/logout">Cerrar Sesión</Link>
                 </span>
               </HeaderMenu.Item>
             </HeaderMenu>

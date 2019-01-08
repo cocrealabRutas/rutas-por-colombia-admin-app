@@ -91,7 +91,10 @@ class MultipleImageUploader extends React.PureComponent {
       ];
       this.props.onChange(newValue);
     } catch (error) {
-      message.error('Error trying to upload the image. Please, try again', 4);
+      message.error(
+        'Error al intentar subir la imagen. Por favor intenta nuevamente.',
+        4,
+      );
       throw error;
     } finally {
       this.setState({ loading: false });
@@ -117,7 +120,10 @@ class MultipleImageUploader extends React.PureComponent {
       const newValue = this.props.value.filter(item => item.key !== key);
       this.props.onChange(newValue);
     } catch (error) {
-      message.error('Error deleting image. Try again', 4);
+      message.error(
+        'Error borrando la imagen. Por favor intenta nuevamente.',
+        4,
+      );
       throw error;
     } finally {
       this.setState({ loading: false });
@@ -135,7 +141,7 @@ class MultipleImageUploader extends React.PureComponent {
         return (
           <div>
             <Icon type="upload" />
-            <div className="ant-upload-text">Upload</div>
+            <div className="ant-upload-text">Subir</div>
           </div>
         );
       }
