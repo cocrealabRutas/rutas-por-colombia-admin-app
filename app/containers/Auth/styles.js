@@ -73,7 +73,7 @@ export const LoginForm = styled(Form)`
     align-items: center;
     padding: 0 20px;
     width: 100%;
-    max-width: 150px;
+    max-width: 200px;
     height: 60px;
     border-radius: 10px;
     line-height: 1.2;

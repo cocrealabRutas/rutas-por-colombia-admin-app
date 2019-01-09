@@ -38,9 +38,11 @@ class EntityTable extends React.PureComponent {
           <Spin size="large" />
         </Dimmer>
         <Segment basic textAlign="right">
-          <Button type="primary" size="large">
-            <Link to={`/${entityType}/new`}>Agregar nuevo</Link>
-          </Button>
+          <Link to={`/${entityType}/new`} style={{ display: 'inline-block' }}>
+            <Button type="primary" size="large">
+              Agregar nuevo
+            </Button>
+          </Link>
         </Segment>
         <TableWithActions
           data={data}
