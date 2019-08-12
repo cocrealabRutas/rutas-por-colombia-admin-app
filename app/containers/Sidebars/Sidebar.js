@@ -9,15 +9,38 @@ import Icon from 'antd/lib/icon';
 
 // Images
 import logo from 'images/logo-inverted.svg';
+import icon from 'images/icon.svg';
 
 // Styles
-import { LogoContainer, Logo } from './styles';
+import theme from 'themes/Project/abstracts/theme.variables';
+import { LogoContainer, Logo, MobileLogo } from './styles';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 class SideBar extends Component {
   state = { collapsed: false };
+
+  componentDidMount() {
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+  }
+
+  onResize = () => {
+    const vw = Math.max(
+      document.documentElement.clientWidth,
+      window.innerWidth || 0,
+    );
+    if (vw < theme.breakpoints.medium) {
+      this.setState({ collapsed: true });
+    } else {
+      this.setState({ collapsed: false });
+    }
+  };
 
   onCollapse = collapsed => {
     this.setState({ collapsed });
@@ -28,14 +51,9 @@ class SideBar extends Component {
     const { location } = this.props;
     const selectedKeys = [location.pathname.split('/')[1]];
     return (
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        onCollapse={this.onCollapse}
-      >
+      <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
         <LogoContainer>
-          <Logo src={logo} />
+          {collapsed ? <MobileLogo src={icon} /> : <Logo src={logo} />}
         </LogoContainer>
         <Menu
           theme="dark"
@@ -44,6 +62,7 @@ class SideBar extends Component {
           style={{ padding: '2em 0' }}
         >
           <SubMenu
+            key="bulk-upload"
             title={
               <span>
                 <Icon type="upload" />
@@ -52,11 +71,9 @@ class SideBar extends Component {
             }
           >
             <Menu.Item key="tolls-upload">
-              <span>
-                <NavLink to="/tolls-upload" className="item">
-                  Cargar peajes
-                </NavLink>
-              </span>
+              <NavLink to="/tolls-upload" className="item">
+                <span>Cargar peajes</span>
+              </NavLink>
             </Menu.Item>
           </SubMenu>
           <Menu.Item key="touristAttraction">

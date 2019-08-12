@@ -15,22 +15,19 @@ import { withAuth } from 'containers/Auth';
 
 /* eslint-disable react/prefer-stateless-function */
 class HomePage extends React.PureComponent {
-  static propTypes = {
-    userData: PropTypes.object.isRequired,
-  };
-
   render() {
     return (
       <div>
         <Helmet>
           <title>Administrador | Rutas por Colombia</title>
         </Helmet>
-        <Header as="h2">{`¡Bienvenido ${
-          this.props.userData.session.user.name
-        }!`}</Header>
+        <Header as="h2">{`¡Bienvenido ${this.props.userData.session.user.name}!`}</Header>
       </div>
     );
   }
 }
+HomePage.propTypes = {
+  userData: PropTypes.object.isRequired,
+};
 
 export default withAuth(HomePage);

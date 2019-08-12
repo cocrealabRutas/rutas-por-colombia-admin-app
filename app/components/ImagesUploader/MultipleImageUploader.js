@@ -24,20 +24,10 @@ import { Segment } from 'semantic-ui-react';
 import { withAuth } from 'containers/Auth';
 
 // Constants
-import endpoints from 'config/endpoints.json';
+import endpoints from 'config/endpoints';
 
 /* eslint-disable react/prefer-stateless-function */
 class MultipleImageUploader extends React.PureComponent {
-  static defaultProps = {
-    onChange: () => {},
-  };
-
-  static propTypes = {
-    onChange: PropTypes.func,
-    value: PropTypes.any,
-    userData: PropTypes.object.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.cancelTokenSource = axios.CancelToken.source();
@@ -69,13 +59,16 @@ class MultipleImageUploader extends React.PureComponent {
 
   onChange = async info => {
     const { file } = info;
+    if (file.status === 'removed') {
+      return null;
+    }
     const data = new FormData();
     data.append('image', file);
     this.setState({ loading: true });
     try {
       const {
         data: { key, path },
-      } = await api.post('/files/image', data, {
+      } = await api.put('/files/image', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${this.props.userData.session.token}`,
@@ -99,32 +92,33 @@ class MultipleImageUploader extends React.PureComponent {
     } finally {
       this.setState({ loading: false });
     }
+
+    return null;
   };
 
   onRemove = async ({ path, key }) => {
     this.setState({ loading: true });
     try {
-      await api.post(
-        '/files/image/delete',
-        {
-          path,
+      await api.delete(`/files/image/delete?path=${path}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.props.userData.session.token}`,
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${this.props.userData.session.token}`,
-          },
-          cancelToken: this.cancelTokenSource.token,
-        },
-      );
+        cancelToken: this.cancelTokenSource.token,
+      });
       const newValue = this.props.value.filter(item => item.key !== key);
       this.props.onChange(newValue);
     } catch (error) {
-      message.error(
-        'Error borrando la imagen. Por favor intenta nuevamente.',
-        4,
-      );
-      throw error;
+      if (error.response.status && error.response.status === 404) {
+        const newValue = this.props.value.filter(item => item.key !== key);
+        this.props.onChange(newValue);
+      } else {
+        message.error(
+          'Error borrando la imagen. Por favor intenta nuevamente.',
+          4,
+        );
+        throw error;
+      }
     } finally {
       this.setState({ loading: false });
     }
@@ -152,7 +146,6 @@ class MultipleImageUploader extends React.PureComponent {
         <Upload
           name="avatar"
           listType="picture-card"
-          className="avatar-uploader"
           fileList={derivedData}
           action={null}
           beforeUpload={() => false}
@@ -176,5 +169,14 @@ class MultipleImageUploader extends React.PureComponent {
     );
   }
 }
+MultipleImageUploader.defaultProps = {
+  onChange: () => {},
+};
+
+MultipleImageUploader.propTypes = {
+  onChange: PropTypes.func,
+  value: PropTypes.any,
+  userData: PropTypes.object.isRequired,
+};
 
 export default withAuth(MultipleImageUploader);

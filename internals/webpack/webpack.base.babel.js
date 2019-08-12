@@ -15,14 +15,12 @@ process.noDeprecation = true;
 module.exports = options => ({
   mode: options.mode,
   entry: options.entry,
-  output: Object.assign(
-    {
-      // Compile into js/build.js
-      path: path.resolve(process.cwd(), 'build'),
-      publicPath: '/',
-    },
-    options.output,
-  ), // Merge with env dependent settings
+  output: {
+    // Compile into js/build.js
+    path: path.resolve(process.cwd(), 'build'),
+    publicPath: '/',
+    ...options.output,
+  }, // Merge with env dependent settings
   optimization: options.optimization,
   module: {
     rules: [
@@ -138,6 +136,8 @@ module.exports = options => ({
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        API_URL: JSON.stringify(process.env.API_URL),
+        FILES_ENDPOINT: JSON.stringify(process.env.FILES_ENDPOINT),
       },
     }),
     new MiniCssExtractPlugin({
@@ -152,6 +152,7 @@ module.exports = options => ({
         process.cwd(),
         'app/themes/Semantic/theme.config',
       ),
+      moment$: 'moment/moment.js',
     },
     modules: ['node_modules', 'app'],
     extensions: ['.js', '.jsx', '.react.js'],

@@ -24,6 +24,12 @@ const Logo = styled.img`
   width: 120px;
 `;
 
+const MobileLogo = styled.img`
+  display: inline-block;
+  vertical-align: middle;
+  width: 48px;
+`;
+
 const Header = styled(AntdHeader)`
   padding: 0;
   display: flex;
@@ -61,4 +67,12 @@ const HeaderMenu = styled(Menu)`
   line-height: 64px;
 `;
 
-export { LogoContainer, Logo, Header, Avatar, HeaderMenu, MenuItemHeader };
+export {
+  LogoContainer,
+  Logo,
+  Header,
+  Avatar,
+  HeaderMenu,
+  MenuItemHeader,
+  MobileLogo,
+};
