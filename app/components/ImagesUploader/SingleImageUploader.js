@@ -22,9 +22,6 @@ import { Segment } from 'semantic-ui-react';
 // Components
 import { withAuth } from 'containers/Auth';
 
-// Constants
-import endpoints from 'config/endpoints';
-
 /* eslint-disable react/prefer-stateless-function */
 class SingleImageUploader extends React.PureComponent {
   constructor(props) {
@@ -55,7 +52,7 @@ class SingleImageUploader extends React.PureComponent {
     this.setState({ loading: true });
     try {
       const {
-        data: { key, path },
+        data: { key, url: path },
       } = await api.put('/files/image', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -80,10 +77,10 @@ class SingleImageUploader extends React.PureComponent {
     return null;
   };
 
-  onRemove = async ({ path }) => {
+  onRemove = async ({ key }) => {
     this.setState({ loading: true });
     try {
-      await api.delete(`/files/image/delete?path=${path}`, {
+      await api.delete(`/files/image/delete?id=${key}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${this.props.userData.session.token}`,
@@ -116,7 +113,7 @@ class SingleImageUploader extends React.PureComponent {
       : [
           {
             ...value,
-            url: `${endpoints.FILES_ENDPOINT}/${value.path}`,
+            url: value.path,
             uid: -1,
           },
         ];

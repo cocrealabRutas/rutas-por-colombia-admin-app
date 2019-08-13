@@ -50,6 +50,7 @@ const withEntityCollectionBasicOperations = WrappedComponent => {
         });
         const data = response.data.map(item => ({
           ...item,
+          // eslint-disable-next-line no-underscore-dangle
           id: item._id,
         }));
         this.setState({ data, loading: false });
@@ -104,6 +105,11 @@ const withEntityCollectionBasicOperations = WrappedComponent => {
       );
     }
   }
+
+  EntityCollectionBasicOperations.propTypes = {
+    entityPath: PropTypes.string.isRequired,
+    userData: PropTypes.object.isRequired,
+  };
 
   return withAuth(EntityCollectionBasicOperations);
 };

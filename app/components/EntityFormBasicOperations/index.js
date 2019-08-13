@@ -21,11 +21,6 @@ import { withAuth } from 'containers/Auth';
 
 const withEntityFormBasicOperations = WrappedComponent => {
   class EntityFormBasicOperations extends React.Component {
-    static propTypes = {
-      entityPath: PropTypes.string.isRequired,
-      match: PropTypes.object.isRequired,
-    };
-
     constructor(props) {
       super(props);
       const { entityPath, match } = props;
@@ -141,6 +136,12 @@ const withEntityFormBasicOperations = WrappedComponent => {
       return [];
     }
   }
+  EntityFormBasicOperations.propTypes = {
+    entityPath: PropTypes.string.isRequired,
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    userData: PropTypes.object.isRequired,
+  };
 
   const enhance = compose(
     withRouter,

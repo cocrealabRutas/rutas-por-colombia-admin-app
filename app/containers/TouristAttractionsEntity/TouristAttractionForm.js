@@ -28,14 +28,6 @@ const { TextArea } = Input;
 
 /* eslint-disable react/prefer-stateless-function */
 class TouristAttractionForm extends React.PureComponent {
-  static propTypes = {
-    form: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired,
-    data: PropTypes.object.isRequired,
-    submitData: PropTypes.func.isRequired,
-    action: PropTypes.string.isRequired,
-  };
-
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -167,6 +159,13 @@ class TouristAttractionForm extends React.PureComponent {
     );
   }
 }
+TouristAttractionForm.propTypes = {
+  form: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+  data: PropTypes.object.isRequired,
+  submitData: PropTypes.func.isRequired,
+  action: PropTypes.string.isRequired,
+};
 
 const enhance = compose(
   defaultProps({ entityPath: 'touristAttraction' }),
